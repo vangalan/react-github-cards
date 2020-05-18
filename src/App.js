@@ -27,85 +27,64 @@ class Form extends React.Component {
   render(){
     return(
       <form onSubmit={this.handleSubmit}>
-        <input type="text" 
-        placeholder="Github username" 
-        ref={this.userNameInput} 
+        <input type="text"
+        placeholder="Github username"
+        ref={this.userNameInput}
         required/>
         <button>Add card</button>
       </form>
     );
   }
 }
-
-// class Form extends React.Component {
-//   handleSubmit = async (event) => {
-//     event.preventDefault();
-//     const resp = await axios.get(`https://api.github.com/users/${this.userNameInput.current.value}`)
-//     console.log('Submitted');
-//     console.log(this.userNameInput.current.value);
-//     console.log(resp.data);
-//   }
-//   render() {
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <input type="text"
-//           placeholder="Github username"
-//           ref={this.userNameInput}
-//           required />
-//         <button>Add card</button>
-//       </form>
-//     )
-//   }
-// }
-
-const Cardlist = (props) => (
+const CardList = (props) => (
   <div>
-    {props.profiles.map(profile => <Card {...profile.id} />)}
-    {/* <Card {...testData[0]}/>
-    <Card {...testData[1]}/>
-    <Card {...testData[2]}/> */}
+    {props.profiles.map(profile => <Card Key={profile.id} {...profile}/> )}
+    {/* <Card {...testData[0]} />
+    <Card {...testData[1]} />
+    <Card {...testData[2]} /> */}
   </div>
 )
-
-class App extends React.Component {
-  constructor(props) {
+class App extends React.Component{
+  constructor (props) {
     super(props);
-    this.state = {
-      profiles: []
-    };
-  };
+      this.state = {
+        profiles: []
+      };
+  }
+  // state = {
+  //   profiles: testData
+  // }
   addNewProfileData = (profileData) => {
-    this.setState(prevState => ({
-      profiles: [...prevState.profiles, profileData],
-    }));
+    this.setState(prevState => ({profiles: [...prevState.profiles,
+    profileData],
+  }));
     console.log('App', profileData);
   }
-  render() {
+  render(){
     return (
-      <div>
-        <div className="header" style={{ color: 'red' }}>{this.props.title}</div>
-        <Form onSubmit={this.addNewProfileData} />
-        <Cardlist profiles={this.state.profiles} />
-      </div>
+    <div>
+      <div className="header">{this.props.title}</div>
+      <Form onSubmit={this.addNewProfileData}/>
+      {/* <ConditionalStyle /> */}
+      <CardList profiles={this.state.profiles} />
+    </div>
     )
-  };
-};
-
+  }
+}
 class Card extends React.Component {
-  render() {
+  render(){
     const profile = this.props;
     return (
       <div className="github-profile">
         <img src={profile.avatar_url} />
         <div className="info">
-          <div className="name">{profile.name}</div>
-          <div className="company">{profile.company}</div>
+        <div className="name">{profile.name}</div>
+        <div className="company">{profile.company}</div>
         </div>
       </div>
     );
-  };
-};
-
+  }
+}
 // const App = ({ title }) => (
 //   <div className="header">{title}</div>
 // );
